@@ -1,14 +1,15 @@
 const express = require("express");
-const http = require("http");
 const mongoose = require("mongoose");
+const router = require("./routes");
 
 require("dotenv").config();
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.port || 5000;
 
-const server = http.createServer((req,res)=>{
-    res.write("hi");
-    res.end();
-})
+mongoose
+.connect(process.env.MONGODB_URL)
+.then(()=>console.log("Conntection Successfully..."))
+.catch((error)=>console.log(error));
 
-server.listen(PORT, ()=>(console.log(`The port is: ${PORT}`)));
+app.use(router);
+app.listen(PORT, ()=>(console.log(`The port is: ${PORT}`)));
